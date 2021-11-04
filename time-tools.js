@@ -1,7 +1,16 @@
-function convertSecondsToTime(num_seconds) {
-    hours = (num_seconds - (num_seconds % 3600)) / 3600;
-    minutes = ((num_seconds % 3600) - (num_seconds % 60)) / 60;
-    seconds = num_seconds - (hours * 3600 + minutes * 60);
-    return hours + " : " + minutes + " : " + seconds;
+function convertMilliSecondsToTime(num_seconds) {
+    hours = (num_seconds - (num_seconds % 3600000)) / 3600000;
+    minutes = ((num_seconds % 3600000) - (num_seconds % 60000)) / 60000;
+    seconds =
+        ((num_seconds % 3600000) - minutes * 60000 - (num_seconds % 1000)) /
+        1000;
+    milliseconds = ((num_seconds % 3600000) % 60000) % 1000;
+    return hours + " : " + minutes + " : " + seconds + "." + milliseconds;
 }
-document.write(convertSecondsToTime(3600 * 7 + 678));
+
+setInterval(function () {
+    let time = new Date();
+    document.getElementById("time").innerHTML = convertMilliSecondsToTime(
+        time.getTime()
+    );
+}, 1);
